@@ -17,11 +17,10 @@ class CustomUserManager(BaseUserManager):
     
     def create_superuser(self, email, username, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", True)
-        extra_fields.setdefault("is_superuser", True)
         return self.create_user(email, username, password, **extra_fields)
     
 # Este es el modelo en si, y este usa los metdos del manager
-class CustomUser(AbstractBaseUser, PermissionsMixin):
+class CustomUser(AbstractBaseUser):
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=50, blank=True, null=True)
