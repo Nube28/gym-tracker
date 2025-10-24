@@ -20,7 +20,7 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, username, password, **extra_fields)
     
 # Este es el modelo en si, y este usa los metdos del manager
-class CustomUser(AbstractBaseUser):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=50, blank=True, null=True)
@@ -55,3 +55,16 @@ class CustomUser(AbstractBaseUser):
     class Meta:
         verbose_name = "Usuario"
         verbose_name_plural = "Usuarios"
+
+
+def create_superuser(self, email, name, password=None, **extra_fields):
+    extra_fields.setdefault('is_staff', True)
+    extra_fields.setdefault('is_superuser', True)
+    extra_fields.setdefault('is_active', True)
+
+    if extra_fields.get('is_staff') is not True:
+        raise ValueError('El superusuario debe tener is_staff=True.')
+    if extra_fields.get('is_superuser') is not True:
+        raise ValueError('El superusuario debe tener is_superuser=True.')
+
+    return self.create_user(email, name, password, **extra_fields)
